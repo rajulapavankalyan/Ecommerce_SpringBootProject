@@ -2,6 +2,7 @@ package com.ecommerce.project.controller;
 
 import com.ecommerce.project.DTO.CategoryDTO;
 import com.ecommerce.project.DTO.CategoryResponse;
+import com.ecommerce.project.config.AppConstants;
 import com.ecommerce.project.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,11 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/public/categories")
-    public CategoryResponse getAllCategories(){
-        return categoryService.getAllCategories();
+    public CategoryResponse getAllCategories(@RequestParam(name="pageNumber",defaultValue = AppConstants.PAGE_NUMBER,required = false) Integer pageNumber,
+                                             @RequestParam(name = "pageSize",defaultValue = AppConstants.PAGE_SIZE,required = false) Integer pageSize,
+                                             @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_CATEGORIES_BY,required = false) String sortBy,
+                                             @RequestParam(name="sortOrder",defaultValue = AppConstants.SORT_DIRECTION,required = false) String sortOrder){
+        return categoryService.getAllCategories(pageNumber, pageSize, sortBy, sortOrder);
     }
 
     @PostMapping("/admin/category")
